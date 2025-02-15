@@ -1,0 +1,90 @@
+import React from "react";
+import Button from "./button";
+
+interface Column {
+  key: string;
+  header: string;
+}
+
+interface TableProps<T> {
+  readonly columns: Column[];
+  readonly data: T[];
+}
+
+function Table<T>({ columns, data }: TableProps<T>) {
+  return (
+    <table className="min-w-full table-auto">
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th
+              key={column.key}
+              className="border-b border-b-300 px-4 text-left font-semibold py-5 text-gray-2 text-[16px]"
+            >
+              {column.header}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="text-[14px]">
+        {data.map((item, index) => (
+          <tr key={index} className="border-b font-normal text-gray-2">
+            {columns.map((column) => (
+              <td
+                key={column.key}
+                className="border-b border-b-gray-300 px-4 py-5"
+              >
+                {(() => {
+                  if (column.key === "actions") {
+                    return (
+                      <Button
+                        text="View"
+                        customstyle="hover:bg-blue-1 hover:text-white transition-all duration-300 ease-in-out"
+                        onClick={() => console.log("View clicked")}
+                      />
+                    );
+                  } else if (column.key === "status") {
+                    return renderStatus(item, column.key as keyof T);
+                  } else {
+                    return item[column.key as keyof T] as React.ReactNode;
+                  }
+                })()}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+const renderStatus = <T,>(item: T, columnKey: keyof T) => {
+  const status = String(item[columnKey]);
+  if (status === "completed") {
+    return (
+      <span className="text-green-1 px-3 py-2 bg-green-1 bg-opacity-30 font-bold text-[14px]">
+        Completed
+      </span>
+    );
+  } else if (status === "assigned") {
+    return (
+      <span className="text-blue-1 px-3 py-2 bg bg-blue-1 bg-opacity-30 font-bold text-[14px]">
+        Assigned
+      </span>
+    );
+  } else if (status === "due&paid") {
+    return (
+      <span className="text-orange-1 px-3 py-2 bg bg-orange-1 bg-opacity-30 font-bold text-[14px]">
+        Due & Paid
+      </span>
+    );
+  } else {
+    return (
+      <span className="text-red-1 px-3 py-2 bg bg-red-1 bg-opacity-30 font-bold text-[14px]">
+        Due & Unpaid
+      </span>
+    );
+  }
+};
+
+export default Table;
