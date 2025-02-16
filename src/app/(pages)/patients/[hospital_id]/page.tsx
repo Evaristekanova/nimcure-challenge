@@ -12,11 +12,9 @@ function SinglePatient() {
   const { hospital_id } = useParams();
   const router = useRouter();
   const [viewPatient, setViewPatient] = useState<string>("");
-  const [addPackage, setAddPackage] = useState<string>("");
   const [isDeliveryInfoOpen, setIsDeliveryInfoOpen] = useState<boolean>(false);
   const [data, setData] = useState<Patient | null>(null);
 
-  // Set up viewPatient dynamically based on the URL structure
   useEffect(() => {
     if (hospital_id) {
       setViewPatient(` / View Patient`);
@@ -26,20 +24,10 @@ function SinglePatient() {
         }
       });
     }
-
-    if (window.location.search) {
-      setAddPackage(` / Assign Package to Patient`);
-    }
-  }, [hospital_id, addPackage]);
+  }, [hospital_id]);
 
   const handlePackage = () => {
-    updateQueryParam("add-package", "true");
-
-    router.push(window.location.href);
-
-    const addedPackage = getQueryParam("add-package");
-    if (addedPackage) setAddPackage(addedPackage);
-    console.log("Package added");
+    router.push(`/patients/${hospital_id}/add-package`);
   };
 
   const handleSwitchInfo = () => {
@@ -56,19 +44,12 @@ function SinglePatient() {
           <span className="text-blue-1 text-[14px]">Patient</span>
           <span
             className={`${
-              hospital_id && !addPackage
+              hospital_id
                 ? "text-[18px] text-gray-1"
                 : "text-blue-1 text-[14px]"
             } `}
           >
             {viewPatient}
-          </span>
-          <span
-            className={`${
-              addPackage ? "text-[18px] text-gray-3" : "text-blue-1 text-[14px]"
-            } `}
-          >
-            {addPackage}
           </span>
         </div>
         <Button

@@ -69,7 +69,7 @@ function Login() {
     setIsChecked(!isChecked);
   };
   return (
-    <div className="w-full h-screen grid grid-cols-2">
+    <div className="w-full h-screen grid grid-cols-2 max-lg:grid-cols-1">
       <div className="p-4">
         <div className="flex justify-center items-center mt-20">
           <Image
@@ -106,7 +106,7 @@ function Login() {
               error={formErrors.password}
             />
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between max-sm:flex-col max-sm:items-start max-sm:gap-1">
               <div
                 className="flex items-center cursor-pointer p-2 transition-all duration-300"
                 onClick={handleCheck}
@@ -132,11 +132,11 @@ function Login() {
             </div>
           </form>
         </div>
-        <div className="mt-16 flex flex-col items-center">
+        <div className="mt-16 flex justify-center  items-center max-w-sm mx-auto w-full">
           <CustomButton
             type="button"
             text="Login"
-            customstyle="bg-blue-1 text-white w-full max-w-sm py-3 text-lg font-bold"
+            customstyle="bg-blue-1 text-white py-3 text-lg font-bold text-center flex justify-center"
             onClick={(event) => handleLogin(event)}
           />
         </div>
@@ -151,7 +151,7 @@ function Login() {
           />
         </div>
       </div>
-      <div className="relative w-full h-full flex justify-center items-center bg-blue-1">
+      <div className="relative w-full h-full flex justify-center items-center bg-blue-1 max-lg:hidden">
         <Image
           src="/images/loginImage.svg"
           alt="Login Image"
@@ -166,6 +166,19 @@ function Login() {
           height={400}
           className=" absolute bottom-44 -left-20"
         />
+        <div className="w-full absolute bottom-20">
+          <div className="max-w-7xl mx-auto text-center  flex flex-col justify-center">
+            <h1 className="text-lg text-white mb-3 font-bold">
+              Serving Patients During a Pandemic
+            </h1>
+            <p className="text-white text-[14px]">
+              Delivering essential medication to NIMR patients with adherence to
+            </p>
+            <p className="text-white text-[14px]">
+              quality of service, care and confidentiality.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

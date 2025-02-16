@@ -22,7 +22,7 @@ const CustomButton: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={` flex gap-2 px-3 py-1 border border-blue-1 text-blue-1 transition-all duration-300 ease-in-out ${customstyle}`}
+      className={` w-full flex items-center gap-2 px-3 py-1 border border-blue-1 text-blue-1 transition-all duration-300 ease-in-out ${customstyle}`}
       disabled={isDisabled}
     >
       {icon && (
