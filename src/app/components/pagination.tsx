@@ -37,6 +37,7 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className="flex items-center justify-center space-x-2 text-gray-3">
       <CustomButton
+        type="button"
         text="Prev"
         onClick={handlePrevClick}
         isDisabled={currentPage === 1}
@@ -47,6 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
       {pageNumbers.map((page) => (
         <CustomButton
+          type="button"
           key={page}
           text={page.toString()}
           onClick={() => onPageChange(page)}
@@ -58,6 +60,7 @@ const Pagination: React.FC<PaginationProps> = ({
         />
       ))}
       <CustomButton
+        type="button"
         text="Next"
         onClick={handleNextClick}
         isDisabled={currentPage === totalPages}

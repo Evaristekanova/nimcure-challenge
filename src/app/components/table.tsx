@@ -1,17 +1,29 @@
 import React from "react";
 import Button from "./button";
+import { useRouter } from "next/navigation";
 
 interface Column {
   key: string;
   header: string;
 }
 
-interface TableProps<T> {
+interface TableProps<T extends { [key: string]: string; hospital_id: string }> {
   readonly columns: Column[];
   readonly data: T[];
 }
 
-function Table<T>({ columns, data }: TableProps<T>) {
+function Table<T extends { [key: string]: any; hospital_id: string }>({
+  columns,
+  data,
+}: TableProps<T>) {
+  const router = useRouter();
+
+  const handleViewSinglePatient = (hospital_id: string) => {
+    if (hospital_id) {
+      router.push(`/patients/${hospital_id}`);
+    }
+  };
+
   return (
     <table className="min-w-full table-auto">
       <thead>
@@ -19,7 +31,15 @@ function Table<T>({ columns, data }: TableProps<T>) {
           {columns.map((column) => (
             <th
               key={column.key}
-              className="border-b border-b-300 px-4 text-left font-semibold py-5 text-gray-2 text-[16px]"
+              className={`border-b border-b-300 px-4 text-left font-semibold py-5 text-gray-2 text-[16px] ${
+                column.key === "phone_number"
+                  ? "max-lg:hidden"
+                  : column.key === "next_delivery_date"
+                  ? "max-md:hidden"
+                  : column.key === "hospital_id"
+                  ? "max-sm:hidden"
+                  : ""
+              }`}
             >
               {column.header}
             </th>
@@ -32,15 +52,27 @@ function Table<T>({ columns, data }: TableProps<T>) {
             {columns.map((column) => (
               <td
                 key={column.key}
-                className="border-b border-b-gray-300 px-4 py-5"
+                className={`border-b border-b-gray-300 px-4 py-5 ${
+                  column.key === "phone_number"
+                    ? "max-lg:hidden"
+                    : column.key === "next_delivery_date"
+                    ? "max-md:hidden"
+                    : column.key === "hospital_id"
+                    ? "max-sm:hidden"
+                    : ""
+                }
+                  `}
               >
                 {(() => {
                   if (column.key === "actions") {
                     return (
                       <Button
+                        type="button"
                         text="View"
                         customstyle="hover:bg-blue-1 hover:text-white transition-all duration-300 ease-in-out"
-                        onClick={() => console.log("View clicked")}
+                        onClick={() =>
+                          handleViewSinglePatient(item.hospital_id!)
+                        }
                       />
                     );
                   } else if (column.key === "status") {

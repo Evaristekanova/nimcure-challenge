@@ -43,6 +43,7 @@ function Patients() {
           <div className="px-8 flex justify-between items-center mt-20">
             <p className="text-lg font-bold text-gray-2">Patients</p>
             <Button
+              type="button"
               text="+ Add Patient"
               customstyle="bg-blue-1 text-white text-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out border-none"
               onClick={() => console.log("hello")}
