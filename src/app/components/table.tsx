@@ -27,7 +27,7 @@ function Table<T extends { [key: string]: any; hospital_id: string }>({
   return (
     <table className="min-w-full table-auto">
       <thead>
-        <tr>
+        <tr className="px-4">
           {columns.map((column) => (
             <th
               key={column.key}
@@ -48,7 +48,7 @@ function Table<T extends { [key: string]: any; hospital_id: string }>({
       </thead>
       <tbody className="text-[14px]">
         {data.map((item, index) => (
-          <tr key={index} className="border-b font-normal text-gray-2">
+          <tr key={index} className="border-b font-normal text-gray-2 px-4">
             {columns.map((column) => (
               <td
                 key={column.key}
@@ -90,7 +90,7 @@ function Table<T extends { [key: string]: any; hospital_id: string }>({
   );
 }
 
-const renderStatus = <T,>(item: T, columnKey: keyof T) => {
+export const renderStatus = <T,>(item: T, columnKey: keyof T) => {
   const status = String(item[columnKey]);
   if (status === "completed") {
     return (

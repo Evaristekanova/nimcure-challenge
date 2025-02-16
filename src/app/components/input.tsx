@@ -11,6 +11,7 @@ interface InputComponentProps {
   minLength?: number;
   error?: string;
   placeholder?: string;
+  customStyles?: string;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -23,6 +24,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   minLength,
   error,
   placeholder,
+  customStyles,
 }) => {
   const [inputType, setInputType] = useState(type);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -56,7 +58,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
           type={inputType}
           value={value}
           onChange={handleChange}
-          className={`w-full px-2 py-3 border outline-none ${
+          className={`w-full px-2 py-3 border outline-none ${customStyles} ${
             validationError ?? error
               ? "focus:border-red-1"
               : "focus:border-blue-1"

@@ -1,4 +1,3 @@
-
 // function which help us to update the query params
 const updateQueryParam = (param: string, value: string) => {
   const url = new URL(window.location.href);

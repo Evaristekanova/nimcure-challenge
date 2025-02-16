@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image"; // Correct import for Next.js Image
 
 interface ButtonProps {
   text: string;
@@ -21,10 +22,13 @@ const CustomButton: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`px-3 py-1 border border-blue-1 text-blue-1 transition-all duration-300 ease-in-out ${customstyle}`}
+      className={` flex gap-2 px-3 py-1 border border-blue-1 text-blue-1 transition-all duration-300 ease-in-out ${customstyle}`}
       disabled={isDisabled}
     >
-      {icon && <span className="mr-1">{icon}</span>} {text}
+      {icon && (
+        <Image width={20} height={20} src={icon} alt="icon" className="mr-1" />
+      )}{" "}
+      {text}
     </button>
   );
 };
