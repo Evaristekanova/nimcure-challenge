@@ -56,8 +56,6 @@ const AddPackage = () => {
     });
   };
 
-  const handleSwitchInfo = () => {};
-
   return !data ? (
     <Loader />
   ) : (
