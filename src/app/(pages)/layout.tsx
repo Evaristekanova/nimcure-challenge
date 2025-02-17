@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-0 overflow-x-hidden">
+      <body className="bg-gray-0 overflow-x-hidden relative">
         <Navbar />
         <div className="">{children}</div>
       </body>

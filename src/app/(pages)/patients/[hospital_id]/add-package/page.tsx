@@ -61,7 +61,7 @@ const AddPackage = () => {
   return !data ? (
     <Loader />
   ) : (
-    <div className="bg-gray-0 pb-8 min-h-screen">
+    <div className="bg-gray-0 pb-8 min-h-screen pt-16">
       <div className=" flex justify-between items-center pt-8 max-w-7xl mx-auto max-lg:w-full max-lg:px-8 max-lg:mx-0 max-sm:px-2">
         <div className="max-sm:hidden">
           <span className="text-blue-1 text-[14px]">Patient</span>

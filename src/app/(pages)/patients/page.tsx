@@ -93,7 +93,7 @@ function Patients() {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="bg-gray-0 pb-8">
+        <div className="bg-gray-0 pb-8 pt-16">
           <div className="px-8 flex justify-between items-center pt-8 max-w-7xl mx-auto max-lg:w-full max-lg:px-8 max-lg:mx-0 max-sm:px-2">
             <p className="text-lg font-bold text-gray-2">Patients</p>
             <CustomButton

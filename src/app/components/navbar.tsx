@@ -54,8 +54,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 h-16">
+      <nav className="bg-white shadow-lg h-16 w-full fixed z-20 top-0 left-0">
+        <div className="max-w-7xl mx-auto px-4 h-full">
           {/* Mobile view */}
           <div className="flex justify-between items-center px-2 lg:hidden h-full">
             <div className="flex items-center space-x-4">
