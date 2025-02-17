@@ -29,3 +29,27 @@
     background-size: 20% 50%, 20% 50%, 20% 50%;
   }
 }
+
+.custom-scroll {
+  scroll-behavior: smooth;
+  padding-right: 12px;
+  padding-bottom: 12px;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 14px;
+  height: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 8px;
+  border: 2.5px solid transparent;
+  background-clip: content-box;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background-color: #e8e8e8;
+  border-radius: 8px;
+  padding: 1px;
+}

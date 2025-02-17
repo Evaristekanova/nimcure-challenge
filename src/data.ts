@@ -1,4 +1,59 @@
 import { Patient } from "./app/(pages)/patients/page";
+import { DispatchRiderCardProps } from "./app/components/dispatchRiderCard";
+
+export const dispatchRiderData: DispatchRiderCardProps[] = [
+  {
+    dispatch_rider_name: "John Doe",
+    delivery_area: "Downtown",
+    number_of_delivery: "25",
+  },
+  {
+    dispatch_rider_name: "Jane Smith",
+    delivery_area: "Uptown",
+    number_of_delivery: "18",
+  },
+  {
+    dispatch_rider_name: "Mike Johnson",
+    delivery_area: "Eastside",
+    number_of_delivery: "32",
+  },
+  {
+    dispatch_rider_name: "Emily Davis",
+    delivery_area: "Westside",
+    number_of_delivery: "27",
+  },
+  {
+    dispatch_rider_name: "Chris Lee",
+    delivery_area: "Suburb",
+    number_of_delivery: "22",
+  },
+  {
+    dispatch_rider_name: "Sarah Brown",
+    delivery_area: "Central Park",
+    number_of_delivery: "20",
+  },
+  {
+    dispatch_rider_name: "David Wilson",
+    delivery_area: "Midtown",
+    number_of_delivery: "15",
+  },
+  {
+    dispatch_rider_name: "Olivia Turner",
+    delivery_area: "Lakeside",
+    number_of_delivery: "10",
+  },
+  {
+    dispatch_rider_name: "Liam White",
+    delivery_area: "Mountain View",
+    number_of_delivery: "35",
+  },
+  {
+    dispatch_rider_name: "Sophia Miller",
+    delivery_area: "Riverside",
+    number_of_delivery: "28",
+  },
+];
+
 
 export const patients: Patient[] = [
   {

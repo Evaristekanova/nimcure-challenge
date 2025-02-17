@@ -5,6 +5,10 @@ import React, { useEffect, useState } from "react";
 import { patients } from "@/data";
 import { Patient } from "../../page";
 import CustomButton from "@/app/components/button";
+import DispatchRiderCard, {
+  DispatchRiderCardProps,
+} from "@/app/components/dispatchRiderCard";
+import { dispatchRiderData } from "@/data";
 
 type DeliveryState = "done" | "pending" | "wait";
 
@@ -18,11 +22,21 @@ const AddPackage = () => {
   const { hospital_id } = useParams();
 
   const [data, setData] = useState<Patient | null>(null);
-  const [currentStep, setCurrentStep] = useState<number>(2);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [deliveryInfoOpen, setDeliveryInfoOpen] = useState<DeliveryProps>({
     step1: "pending",
     step2: "wait",
     step3: "wait",
+  });
+  const [ridersInfo, setRidersInfo] = useState<DispatchRiderCardProps[]>([]);
+
+  // Track selected rider for each step
+  const [selectedRiders, setSelectedRiders] = useState<{
+    [key: string]: string | null;
+  }>({
+    step1: null,
+    step2: null,
+    step3: null,
   });
 
   useEffect(() => {
@@ -33,26 +47,32 @@ const AddPackage = () => {
         }
       });
     }
+    setRidersInfo(dispatchRiderData);
   }, [hospital_id]);
 
-  const handleFirstStep = (num: number) => {
-    setCurrentStep(num);
-    setDeliveryInfoOpen({ ...deliveryInfoOpen, step1: "pending" });
+  const handleStepChange = (step: number) => {
+    const updatedState: DeliveryProps = {
+      step1: step >= 1 ? "done" : "pending",
+      step2: step > 2 ? "done" : step === 2 ? "pending" : "wait",
+      step3: step === 3 ? "pending" : "wait",
+    };
+
+    if (
+      selectedRiders.step1 == null ||
+      (currentStep === 2 && selectedRiders.step2 == null)
+    )
+      return;
+    setCurrentStep(step);
+    setDeliveryInfoOpen(updatedState);
   };
-  const handleSecondStep = (num: number) => {
-    setCurrentStep(num);
-    setDeliveryInfoOpen({
-      ...deliveryInfoOpen,
-      step2: "pending",
-      step1: "done",
-    });
-  };
-  const handleThirdStep = (num: number) => {
-    setCurrentStep(num);
-    setDeliveryInfoOpen({
-      ...deliveryInfoOpen,
-      step2: "done",
-      step3: "pending",
+
+  const handleSelectRider = (dispatch_rider_name: string) => {
+    setSelectedRiders((prevState) => {
+      const newState = {
+        ...prevState,
+        [`step${currentStep}`]: dispatch_rider_name,
+      };
+      return newState;
     });
   };
 
@@ -108,11 +128,11 @@ const AddPackage = () => {
                 text="Set Drug Cycle/Length"
                 customstyle={`h-full border-0 border-b-[4px] transition-all duration-300 ease-in-out ${
                   currentStep === 1
-                    ? "border-b-blue-1 text-bold text-blue-1 font-bold"
+                    ? "border-b-blue-1 text-bold text-blue-1 font-bold cursor-not-allowed"
                     : "text-green-1 border-b-transparent"
                 }`}
                 type={"button"}
-                onClick={() => handleFirstStep(1)}
+                onClick={() => handleStepChange(1)}
               />
               <CustomButton
                 icon={`${
@@ -125,13 +145,13 @@ const AddPackage = () => {
                 text="Assign Dispatch Rider"
                 customstyle={`h-full border-0  transition-all duration-300 ease-in-out ${
                   currentStep === 2 && deliveryInfoOpen.step2 === "pending"
-                    ? "border-b-[4px] border-b-blue-1 text-bold text-blue-1 font-bold"
+                    ? "border-b-[4px] border-b-blue-1 text-bold text-blue-1 font-bold cursor-not-allowed"
                     : deliveryInfoOpen.step2 === "done"
                     ? "text-green-1 border-b-transparent"
                     : "text-gray-2"
                 }`}
                 type={"button"}
-                onClick={() => handleFirstStep(2)}
+                onClick={() => handleStepChange(2)}
               />
 
               <CustomButton
@@ -145,13 +165,13 @@ const AddPackage = () => {
                 }`}
                 customstyle={`h-full border-0 transition-all duration-300 ease-in-out ${
                   deliveryInfoOpen.step3 === "pending"
-                    ? "border-b-[4px] border-b-blue-1 text-bold text-blue-1 font-bold"
+                    ? "border-b-[4px] border-b-blue-1 text-bold text-blue-1 font-bold cursor-not-allowed"
                     : deliveryInfoOpen.step3 === "done"
                     ? "text-green-1 border-b-transparent"
                     : "text-gray-2"
                 }`}
                 type={"button"}
-                onClick={() => handleFirstStep(3)}
+                onClick={() => handleStepChange(3)}
               />
             </div>
           </div>
@@ -179,8 +199,44 @@ const AddPackage = () => {
               customstyle="cursor-pointer w-fit bg-gray-6 text-gray-2 border-0"
             />
           </div>
+          <div className="mt-10 grid gap-5 max-h-[40vh] overflow-y-scroll p-4 custom-scroll">
+            {dispatchRiderData &&
+              currentStep === 1 &&
+              dispatchRiderData
+                .slice(0, 5)
+                .map((data) => (
+                  <DispatchRiderCard
+                    key={data.dispatch_rider_name}
+                    dispatch_rider_name={data.dispatch_rider_name}
+                    delivery_area={data.delivery_area}
+                    number_of_delivery={data.number_of_delivery}
+                    selected={
+                      selectedRiders[`step${currentStep}`] ===
+                      data.dispatch_rider_name
+                    }
+                    onSelect={handleSelectRider}
+                  />
+                ))}
+            {dispatchRiderData &&
+              currentStep === 2 &&
+              dispatchRiderData
+                .slice(5)
+                .map((data) => (
+                  <DispatchRiderCard
+                    key={data.dispatch_rider_name}
+                    dispatch_rider_name={data.dispatch_rider_name}
+                    delivery_area={data.delivery_area}
+                    number_of_delivery={data.number_of_delivery}
+                    selected={
+                      selectedRiders[`step${currentStep}`] ===
+                      data.dispatch_rider_name
+                    }
+                    onSelect={handleSelectRider}
+                  />
+                ))}
+          </div>
 
-          <div className="flex justify-end mt-10">
+          <div className="flex justify-end border-t-4 border-t-gray-0 shadow-sm z-20 py-3 px-6 ">
             <CustomButton
               text="Save Changes"
               type="button"
