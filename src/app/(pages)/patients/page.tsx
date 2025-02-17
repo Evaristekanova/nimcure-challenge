@@ -48,7 +48,6 @@ function Patients() {
     setPage(Number(initialPage));
     setSize(Number(getQueryParam("size")));
     if (page !== null && size !== null) {
-
       // Sort the filtered data based on the selected criteria
       const sortedData = patients
         .filter(
@@ -162,7 +161,8 @@ function Patients() {
                 />
               </div>
               <div className=" flex justify-between text-gray-3 pb-5 px-4 mr-8 ">
-                <p>
+                <div className="max-md:block" />
+                <p className="max-md:hidden">
                   You&apos;re viewing {size! ?? "10"} out of {patients.length}{" "}
                   Deliveries
                 </p>

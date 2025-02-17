@@ -76,12 +76,12 @@ const AddPackage = () => {
         {/* SIMPLE SIDEBAR */}
 
         <div className="w-[30%] max-lg:w-full grid  bg-white h-fit">
-          <div className=" min-h-40 max-lg:grid max-lg:grid-cols-3  max-lg:h-fit max-sm:h-44 max-sm:grid-cols-1">
+          <div className=" min-h-40 max-lg:grid max-lg:grid-cols-1 max-lg:min-h-32  max-lg:h-fit max-sm:grid-cols-1">
             <div className="h-14 flex items-center border-b-2 px-8">
               <p className="text-gray-2 font-bold">Patient Information</p>
             </div>
             {data && (
-              <div className="mt-3 grid gap-4 px-3">
+              <div className="mt-3 grid gap-4 max-lg:gap-2 px-3">
                 <PatientInfo infoField="Hospital Id" value={data.hospital_id} />
                 <PatientInfo infoField="Name" value={data.patient_name} />
                 <PatientInfo
