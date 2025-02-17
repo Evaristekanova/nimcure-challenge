@@ -9,8 +9,10 @@ import DispatchRiderCard, {
   DispatchRiderCardProps,
 } from "@/app/components/dispatchRiderCard";
 import { dispatchRiderData } from "@/data";
+import Image from "next/image";
 
 type DeliveryState = "done" | "pending" | "wait";
+type DrugRoutineState = "same" | "new";
 
 interface DeliveryProps {
   step1: DeliveryState;
@@ -38,6 +40,19 @@ const AddPackage = () => {
     step2: null,
     step3: null,
   });
+  const [selectedOption, setSelectedOption] = useState<"same" | "new" | null>(
+    null
+  ); // Track selected option
+
+  // Function to handle option selection
+  const handleOptionSelect = (option: "same" | "new") => {
+    setSelectedOption(option); // Set selected option
+  };
+  const selectDrugs = (routine: string) => {
+    selectedRiders[`step${currentStep}`] === routine;
+    handleOptionSelect(routine as DrugRoutineState);
+    handleSelectRider(routine);
+  };
 
   useEffect(() => {
     if (hospital_id) {
@@ -200,23 +215,77 @@ const AddPackage = () => {
             />
           </div>
           <div className="mt-10 grid gap-5 max-h-[40vh] overflow-y-scroll p-4 custom-scroll">
-            {dispatchRiderData &&
-              currentStep === 1 &&
-              dispatchRiderData
-                .slice(0, 5)
-                .map((data) => (
-                  <DispatchRiderCard
-                    key={data.dispatch_rider_name}
-                    dispatch_rider_name={data.dispatch_rider_name}
-                    delivery_area={data.delivery_area}
-                    number_of_delivery={data.number_of_delivery}
-                    selected={
-                      selectedRiders[`step${currentStep}`] ===
-                      data.dispatch_rider_name
-                    }
-                    onSelect={handleSelectRider}
-                  />
-                ))}
+            {currentStep === 1 && (
+              <div>
+                <p className="text-gray-600 mb-6">
+                  {`Patient has a drug cycle of two(2) months.`}
+                </p>
+
+                <div className="space-y-4">
+                  {/* Option 1: Combined Drug Cycle Option */}
+                  <div
+                    className={` cursor-default border p-4 ${
+                      selectedOption === "same"
+                        ? "border-blue-1"
+                        : "border-gray-7"
+                    }`}
+                    onClick={() => {
+                      selectedRiders[`step${currentStep}`] === "same";
+                      handleOptionSelect("same");
+                      handleSelectRider("same");
+                    }}
+                  >
+                    <div className="flex items-center space-x-3 border-b border-background pb-2">
+                      <Image
+                        src={
+                          selectedOption === "same"
+                            ? "/images/pending.svg"
+                            : "/images/wait.svg"
+                        }
+                        alt={"image"}
+                        width={20}
+                        height={20}
+                      />
+                      <span className="text-gray-800">
+                        Same as initial drug cycle
+                      </span>
+                    </div>
+                    <p className="pt-4">
+                      Deliver drug on <b>4th February 2020</b> & set next
+                      delivery date to <b>20th March 2020</b>
+                    </p>
+                  </div>
+
+                  {/* Option 2: Set New Drug Cycle */}
+                  <div
+                    className={`cursor-default border p-4 ${
+                      selectedOption === "new"
+                        ? "border-blue-1"
+                        : "border-gray-7"
+                    }`}
+                    onClick={() => {
+                      selectedRiders[`step${currentStep}`] === "new";
+                      handleOptionSelect("new");
+                      handleSelectRider("new");
+                    }}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <Image
+                        src={
+                          selectedOption === "new"
+                            ? "/images/pending.svg"
+                            : "/images/wait.svg"
+                        }
+                        alt={"image"}
+                        width={20}
+                        height={20}
+                      />
+                      <span className="text-gray-800">Set new drug cycle</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             {dispatchRiderData &&
               currentStep === 2 &&
               dispatchRiderData

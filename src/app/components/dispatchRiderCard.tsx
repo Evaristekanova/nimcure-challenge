@@ -24,7 +24,7 @@ function DispatchRiderCard({
 }: DispatchRiderCardProps) {
   return (
     <div
-      className={`flex items-center justify-between gap-5 text-gray-2 border-2 px-8 py-4 cursor-pointer ${
+      className={`flex items-center justify-between gap-5 text-gray-2 border-2 px-8 py-4 ${
         selected ? "border-blue-1" : "border-gray-7"
       }`}
       onClick={() => onSelect && onSelect(dispatch_rider_name)}
