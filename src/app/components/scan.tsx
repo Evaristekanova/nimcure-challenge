@@ -1,39 +1,49 @@
-import React, { useState } from "react";
-import { QrReader } from "react-qr-reader";
+"use client";
 
-function Scan() {
-  const [data, setData] = useState("No result");
-  const [scanningStatus, setScanningStatus] = useState("Ready to scan");
+import React, { useEffect, useRef, useState } from "react";
+import { BrowserMultiFormatReader } from "@zxing/browser";
 
-  const handleResult = (result: any, error: any) => {
-    if (result) {
-      const scannedValue = result?.text;
+const Scan = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [qrResult, setQrResult] = useState<string | null>(null);
 
-      // Validate scanned value (you can enhance this based on your validation rules)
-      if (scannedValue && scannedValue.length > 0) {
-        setData(scannedValue);
-        setScanningStatus("QR code scanned successfully!");
-      } else {
-        setScanningStatus("Invalid QR code");
-      }
-    } else if (error) {
-      setScanningStatus("Scanning error. Please try again.");
+  useEffect(() => {
+    const codeReader = new BrowserMultiFormatReader();
+    const videoElement = videoRef.current;
+
+    // Start scanning
+    if (videoElement) {
+      codeReader
+        .decodeFromVideoDevice(undefined, videoElement, (result, error) => {
+          if (result) {
+            setQrResult(result.getText());
+          }
+          if (error) {
+            console.error(error.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error starting video stream:", error);
+        });
     }
-  };
+
+    // Cleanup on unmount
+    return () => {
+      if (videoElement) {
+        const stream = videoElement.srcObject as MediaStream;
+        const tracks = stream?.getTracks();
+        tracks?.forEach((track) => track.stop()); // Stop video stream
+      }
+    };
+  }, []);
 
   return (
     <div>
-      <h2>Scan QR</h2>
-      <div style={{ width: "40%", height: "40%" }}>
-        <QrReader
-          onResult={handleResult}
-          constraints={{ facingMode: "environment" }}
-        />
-      </div>
-      <p>{scanningStatus}</p>
-      <p>Scanned Data: {data}</p>
+      <h2>QR Scanner</h2>
+      <video ref={videoRef} style={{ width: "100%", maxWidth: "400px" }} />
+      {qrResult && <p>Scanned Result: {qrResult}</p>}
     </div>
   );
-}
+};
 
 export default Scan;

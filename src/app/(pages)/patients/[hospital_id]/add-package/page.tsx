@@ -13,15 +13,7 @@ import Image from "next/image";
 import Generate from "@/app/components/generate";
 import InputComponent from "@/app/components/input";
 import PatientInfo from "@/app/components/patientInfo";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type DeliveryState = "done" | "pending" | "wait";
 type DrugRoutineState = "same" | "new";
@@ -37,7 +29,7 @@ const AddPackage = () => {
   const { hospital_id } = useParams();
 
   const [data, setData] = useState<Patient | null>(null);
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [deliveryInfoOpen, setDeliveryInfoOpen] = useState<DeliveryProps>({
     step1: "pending",
     step2: "wait",
@@ -325,7 +317,7 @@ const AddPackage = () => {
                 ))}
             {currentStep === 3 && (
               <div className="flex gap-10 items-center justify-center">
-                {afterScanCode ? (
+                {!afterScanCode ? (
                   <Generate patient_name={data.patient_name} />
                 ) : (
                   <div>
@@ -333,6 +325,7 @@ const AddPackage = () => {
                       label="Package Code"
                       name="Package Code"
                       type="text"
+                      placeholder="Enter Package Code"
                       value={qrCodeValue}
                       onChange={setqrCodeValue}
                     />
@@ -390,7 +383,7 @@ const AddPackage = () => {
             <div className="flex justify-center items-center font-bold text-2xl">
               <h1>{`Assign Package ${qrCodeValue}`}</h1>
             </div>
-            <div className="border-b-2 border-gray-2" />
+            <div className="border-b border-gray-2" />
             <div className=" flex items-center justify-center p-4">
               <p className="text-lg">
                 Are you sure you want to assign package{" "}
@@ -399,7 +392,7 @@ const AddPackage = () => {
                 {data.patient_name}?
               </p>
             </div>
-            <div className="border-b-2 border-gray-2" />
+            <div className="border-b border-gray-2" />
 
             <div
               className={`flex justify-between border-t-4 border-t-gray-0 shadow-sm z-20 py-3 px-6 1`}
