@@ -383,7 +383,7 @@ const AddPackage = () => {
             <div className="flex justify-center items-center font-bold text-2xl">
               <h1>{`Assign Package ${qrCodeValue}`}</h1>
             </div>
-            <div className="border-b border-gray-2" />
+            <div className="border-b border-gray-4" />
             <div className=" flex items-center justify-center p-4">
               <p className="text-lg">
                 Are you sure you want to assign package{" "}
@@ -392,7 +392,7 @@ const AddPackage = () => {
                 {data.patient_name}?
               </p>
             </div>
-            <div className="border-b border-gray-2" />
+            <div className="border-b border-gray-4" />
 
             <div
               className={`flex justify-between border-t-4 border-t-gray-0 shadow-sm z-20 py-3 px-6 1`}

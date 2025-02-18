@@ -30,6 +30,7 @@ const config: Config = {
         },
         green: {
           1: "#01A85A",
+          2: "#44B07E",
         },
         orange: {
           1: "#FF7A00",

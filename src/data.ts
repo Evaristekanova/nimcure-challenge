@@ -1,5 +1,73 @@
+import { DeliveryPackage } from "./app/(pages)/deliveries/page";
 import { Patient } from "./app/(pages)/patients/page";
 import { DispatchRiderCardProps } from "./app/components/dispatchRiderCard";
+
+export const deliveries: DeliveryPackage[] = [
+  {
+    package_code: "PKG1",
+    delivery_date: "2025-02-18",
+    phone_number: "+12345678901",
+    location: "Location 1",
+    hospital_id: "",
+    patient_name: "John Doe",
+  },
+  {
+    package_code: "PKG2",
+    delivery_date: "2025-02-19",
+    phone_number: "+12345678902",
+    location: "Location 2",
+    hospital_id: "",
+    patient_name: "Jane Smith",
+  },
+  {
+    package_code: "PKG3",
+    delivery_date: "2025-02-20",
+    phone_number: "+12345678903",
+    location: "Location 3",
+    hospital_id: "",
+    patient_name: "Mark Johnson",
+  },
+  {
+    package_code: "PKG4",
+    delivery_date: "2025-02-21",
+    phone_number: "+12345678904",
+    location: "Location 4",
+    hospital_id: "",
+    patient_name: "Sarah Lee",
+  },
+  {
+    package_code: "PKG5",
+    delivery_date: "2025-02-22",
+    phone_number: "+12345678905",
+    location: "Location 5",
+    hospital_id: "",
+    patient_name: "David Brown",
+  },
+  {
+    package_code: "PKG6",
+    delivery_date: "2025-02-23",
+    phone_number: "+12345678906",
+    location: "Location 6",
+    hospital_id: "",
+    patient_name: "Emily Clark",
+  },
+  {
+    package_code: "PKG7",
+    delivery_date: "2025-02-24",
+    phone_number: "+12345678907",
+    location: "Location 7",
+    hospital_id: "",
+    patient_name: "Michael Scott",
+  },
+  {
+    package_code: "PKG8",
+    delivery_date: "2025-02-25",
+    phone_number: "+12345678908",
+    location: "Location 8",
+    hospital_id: "",
+    patient_name: "Sophia Turner",
+  },
+];
 
 export const dispatchRiderData: DispatchRiderCardProps[] = [
   {
@@ -53,7 +121,6 @@ export const dispatchRiderData: DispatchRiderCardProps[] = [
     number_of_delivery: "28",
   },
 ];
-
 
 export const patients: Patient[] = [
   {
