@@ -18,7 +18,7 @@ export interface DeliveryPackage {
 
 function Deliveries() {
   const [, setDeliveriesData] = useState<DeliveryPackage[]>([]);
-  const [success] = useState<boolean>(false);
+  const [success] = useState<boolean>(true);
   const [showAlert, setshowAlert] = useState<boolean>(true);
 
   useEffect(() => {

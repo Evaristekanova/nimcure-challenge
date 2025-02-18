@@ -300,21 +300,19 @@ const AddPackage = () => {
             )}
             {dispatchRiderData &&
               currentStep === 2 &&
-              dispatchRiderData
-                .slice(5)
-                .map((data) => (
-                  <DispatchRiderCard
-                    key={data.dispatch_rider_name}
-                    dispatch_rider_name={data.dispatch_rider_name}
-                    delivery_area={data.delivery_area}
-                    number_of_delivery={data.number_of_delivery}
-                    selected={
-                      selectedRiders[`step${currentStep}`] ===
-                      data.dispatch_rider_name
-                    }
-                    onSelect={handleSelectRider}
-                  />
-                ))}
+              dispatchRiderData.map((data) => (
+                <DispatchRiderCard
+                  key={data.dispatch_rider_name}
+                  dispatch_rider_name={data.dispatch_rider_name}
+                  delivery_area={data.delivery_area}
+                  number_of_delivery={data.number_of_delivery}
+                  selected={
+                    selectedRiders[`step${currentStep}`] ===
+                    data.dispatch_rider_name
+                  }
+                  onSelect={handleSelectRider}
+                />
+              ))}
             {currentStep === 3 && (
               <div className="flex gap-10 items-center justify-center">
                 {!afterScanCode ? (
@@ -353,7 +351,10 @@ const AddPackage = () => {
                 text={"Go Back"}
                 type="button"
                 customstyle="py-2 px-3 font-bold hover:bg-blue-1 hover:text-white"
-                onClick={() => setCurrentStep(2)}
+                onClick={() => {
+                  handleStepChange(2);
+                  setafterScanCode(false);
+                }}
               />
             ) : (
               ""
@@ -366,11 +367,17 @@ const AddPackage = () => {
               }
               type="button"
               customstyle={`py-2 px-3 font-bold bg-blue-2 hover:bg-blue-1 hover:text-white ${
-                qrCodeValue == data.hospital_id ? "" : "cursor-not-allowed"
+                currentStep === 3
+                  ? "cursor-not-allowed"
+                  : qrCodeValue == data.hospital_id
+                  ? "cursor-allowed"
+                  : ""
               } `}
               onClick={() => {
                 if (qrCodeValue === data.hospital_id) {
                   setIsDialogOpen(true);
+                } else {
+                  currentStep === 1 ? handleStepChange(2) : handleStepChange(3);
                 }
               }}
             />

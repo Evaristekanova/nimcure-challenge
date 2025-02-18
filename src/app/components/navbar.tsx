@@ -8,10 +8,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
@@ -179,7 +176,7 @@ const Navbar = () => {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
                   <Link
-                    href="/logout"
+                    href="/"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     Logout
