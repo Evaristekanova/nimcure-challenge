@@ -136,7 +136,7 @@ function Login() {
           <CustomButton
             type="button"
             text="Login"
-            customstyle="bg-blue-1 text-white py-3 text-lg font-bold text-center flex justify-center"
+            customstyle="bg-blue-1 text-white py-3 text-lg font-bold text-center flex justify-center w-full"
             onClick={(event) => handleLogin(event)}
           />
         </div>
