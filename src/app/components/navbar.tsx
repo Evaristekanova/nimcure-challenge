@@ -26,7 +26,7 @@ const Navbar = () => {
 
   const navLinks = [
     {
-      href: "/overview",
+      href: "/#",
       label: "Overview",
       icon: "/images/overview.svg",
     },
@@ -41,12 +41,12 @@ const Navbar = () => {
       icon: "/images/patients.svg",
     },
     {
-      href: "/dispatch-riders",
+      href: "/#",
       label: "Dispatch Riders",
       icon: "/images/riders.svg",
     },
     {
-      href: "/admin",
+      href: "/#",
       label: "Admin",
       icon: "/images/admin.svg",
     },
@@ -91,9 +91,9 @@ const Navbar = () => {
                     <SheetClose asChild key={link.href}>
                       <Link
                         href={link.href}
-                        className={`flex items-center gap-2 text-dark_grey hover:text-gray-900 ${
+                        className={`flex items-center gap-2 text-dark_grey hover:text-blue-1 w-full ${
                           pathname === link.href
-                            ? "font-bold text-light_blue border-b-4 rounded-sm py-2 border-light_blue"
+                            ? "font-bold text-blue-1 rounded-sm py-2 hover:text-blue-1"
                             : ""
                         }`}
                       >
@@ -109,6 +109,14 @@ const Navbar = () => {
                       </Link>
                     </SheetClose>
                   ))}
+                  <SheetClose asChild>
+                    <Link
+                      href={"/"}
+                      className={`flex items-center gap-2 text-dark_grey hover:text-gray-900`}
+                    >
+                      Logout
+                    </Link>
+                  </SheetClose>
                 </div>
 
                 <SheetFooter className="mt-6">
@@ -141,9 +149,9 @@ const Navbar = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-2 hover:text-gray-900 ${
+                  className={`flex items-center gap-2 hover:text-blue-1${
                     pathname === link.href
-                      ? "font-bold text-light_blue border-b-4 rounded-sm py-5 border-light_blue"
+                      ? "font-bold text-blue-1 border-b-4 rounded-sm py-5 border-blue-1 "
                       : ""
                   }`}
                 >
@@ -166,7 +174,7 @@ const Navbar = () => {
                 onClick={toggleDropdown}
                 className="text-dark font-bold hover:text-gray-900 focus:outline-none"
               >
-                Emmanuel Adigwe
+                Adigwe
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">

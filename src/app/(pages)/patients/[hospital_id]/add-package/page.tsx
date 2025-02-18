@@ -1,6 +1,6 @@
 "use client";
 import Loader from "@/app/components/loader";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { patients } from "@/data";
 import { Patient } from "../../page";
@@ -10,6 +10,18 @@ import DispatchRiderCard, {
 } from "@/app/components/dispatchRiderCard";
 import { dispatchRiderData } from "@/data";
 import Image from "next/image";
+import Generate from "@/app/components/generate";
+import InputComponent from "@/app/components/input";
+import PatientInfo from "@/app/components/patientInfo";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type DeliveryState = "done" | "pending" | "wait";
 type DrugRoutineState = "same" | "new";
@@ -21,16 +33,20 @@ interface DeliveryProps {
 }
 
 const AddPackage = () => {
+  const router = useRouter();
   const { hospital_id } = useParams();
 
   const [data, setData] = useState<Patient | null>(null);
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(3);
   const [deliveryInfoOpen, setDeliveryInfoOpen] = useState<DeliveryProps>({
     step1: "pending",
     step2: "wait",
     step3: "wait",
   });
   const [ridersInfo, setRidersInfo] = useState<DispatchRiderCardProps[]>([]);
+  const [afterScanCode, setafterScanCode] = useState<boolean>(false);
+  const [qrCodeValue, setqrCodeValue] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Track selected rider for each step
   const [selectedRiders, setSelectedRiders] = useState<{
@@ -43,6 +59,10 @@ const AddPackage = () => {
   const [selectedOption, setSelectedOption] = useState<"same" | "new" | null>(
     null
   ); // Track selected option
+
+  const handleClickAfterScan = () => {
+    setafterScanCode(!afterScanCode);
+  };
 
   // Function to handle option selection
   const handleOptionSelect = (option: "same" | "new") => {
@@ -196,25 +216,25 @@ const AddPackage = () => {
             <CustomButton
               text="All(33)"
               type="button"
-              customstyle="cursor-pointer font-bold w-fit bg-blue-2"
+              customstyle=" font-bold w-fit bg-blue-2 cursor-default"
             />
             <CustomButton
               text="Yaba Riders (5)"
               type="button"
-              customstyle="cursor-pointer w-fit bg-gray-6 text-gray-2 border-0"
+              customstyle=" w-fit bg-gray-6 text-gray-2 border-0 cursor-default"
             />
             <CustomButton
               text="Unassigned Riders (10)"
               type="button"
-              customstyle="cursor-pointer w-fit bg-gray-6 text-gray-2 border-0"
+              customstyle=" w-fit bg-gray-6 text-gray-2 border-0 cursor-default"
             />
             <CustomButton
               text="Assigned Riders (23)"
               type="button"
-              customstyle="cursor-pointer w-fit bg-gray-6 text-gray-2 border-0"
+              customstyle=" w-fit bg-gray-6 text-gray-2 border-0 cursor-default"
             />
           </div>
-          <div className="mt-10 grid gap-5 max-h-[40vh] overflow-y-scroll p-4 custom-scroll">
+          <div className="mt-10 grid gap-5 max-h-[40vh] overflow-y-scroll p-4 custom-scroll ">
             {currentStep === 1 && (
               <div>
                 <p className="text-gray-600 mb-6">
@@ -303,34 +323,106 @@ const AddPackage = () => {
                     onSelect={handleSelectRider}
                   />
                 ))}
+            {currentStep === 3 && (
+              <div className="flex gap-10 items-center justify-center">
+                {afterScanCode ? (
+                  <Generate patient_name={data.patient_name} />
+                ) : (
+                  <div>
+                    <InputComponent
+                      label="Package Code"
+                      name="Package Code"
+                      type="text"
+                      value={qrCodeValue}
+                      onChange={setqrCodeValue}
+                    />
+                  </div>
+                )}
+                <CustomButton
+                  type="button"
+                  text={
+                    afterScanCode ? "Click after scan" : "Go back to scan code"
+                  }
+                  customstyle="w-fit h-fit hover:bg-blue-1 hover:text-white"
+                  onClick={handleClickAfterScan}
+                />
+              </div>
+            )}
           </div>
 
-          <div className="flex justify-end border-t-4 border-t-gray-0 shadow-sm z-20 py-3 px-6 ">
+          <div
+            className={`flex ${
+              currentStep === 3 ? "justify-between" : "justify-end"
+            } border-t-4 border-t-gray-0 shadow-sm z-20 py-3 px-6 1`}
+          >
+            {currentStep === 3 ? (
+              <CustomButton
+                text={"Go Back"}
+                type="button"
+                customstyle="py-2 px-3 font-bold hover:bg-blue-1 hover:text-white"
+                onClick={() => setCurrentStep(2)}
+              />
+            ) : (
+              ""
+            )}
             <CustomButton
-              text="Save Changes"
+              text={
+                currentStep === 3 && qrCodeValue == data.hospital_id
+                  ? "Add Package"
+                  : "Save Changes"
+              }
               type="button"
-              customstyle="py-2 px-3 font-bold bg-blue-2"
+              customstyle={`py-2 px-3 font-bold bg-blue-2 hover:bg-blue-1 hover:text-white ${
+                qrCodeValue == data.hospital_id ? "" : "cursor-not-allowed"
+              } `}
+              onClick={() => {
+                if (qrCodeValue === data.hospital_id) {
+                  setIsDialogOpen(true);
+                }
+              }}
             />
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-white shadow-lg rounded-lg max-h-screen overflow-y-auto">
+          <div className="grid gap-4">
+            <div className="flex justify-center items-center font-bold text-2xl">
+              <h1>{`Assign Package ${qrCodeValue}`}</h1>
+            </div>
+            <div className="border-b-2 border-gray-2" />
+            <div className=" flex items-center justify-center p-4">
+              <p className="text-lg">
+                Are you sure you want to assign package{" "}
+                <span className="font-bold">{qrCodeValue}</span> to{" "}
+                <span className="font-bold">{data.patient_name}</span> to{" "}
+                {data.patient_name}?
+              </p>
+            </div>
+            <div className="border-b-2 border-gray-2" />
 
-const PatientInfo = ({
-  infoField,
-  value,
-}: {
-  infoField: string;
-  value: string;
-}) => {
-  return (
-    <div className="grid grid-cols-2 px-2 w-full mb-3">
-      <p className="font-light text-gray-2 text-[15px]">{infoField}</p>
-      <p className="font-semibold text-gray-5 text-right text-[16px]">
-        {value}
-      </p>
+            <div
+              className={`flex justify-between border-t-4 border-t-gray-0 shadow-sm z-20 py-3 px-6 1`}
+            >
+              <CustomButton
+                text={"Cancel"}
+                type="button"
+                customstyle="py-2 px-3 font-bold hover:bg-red-1 border-red-1 text-red-1 hover:text-white"
+                onClick={() => setIsDialogOpen(false)}
+              />
+
+              <CustomButton
+                text={"Add Package"}
+                type="button"
+                customstyle={`py-2 px-3 font-bold hover:bg-blue-1 hover:text-white `}
+                onClick={() => {
+                  router.push("/deliveries");
+                }}
+              />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
