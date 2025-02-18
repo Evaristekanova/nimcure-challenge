@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        primary: ["Gilroy", "sans-serif"], // Add your custom font
+      },
       colors: {
         blue: {
           1: "#1F5AF4",
@@ -23,7 +26,7 @@ const config: Config = {
           5: "#424242",
           6: "#827F9812",
           7: "#E8E8E8",
-          8:"#E0E0E0"
+          8: "#E0E0E0",
         },
         green: {
           1: "#01A85A",
